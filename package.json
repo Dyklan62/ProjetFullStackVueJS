@@ -1,0 +1,27 @@
+{
+  "name": "projet_serveur",
+  "version": "1.0.0",
+  "description": "serveur du projet dyklan",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/main.js"
+  },
+  "author": "Dyklan Flinois",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
+    "connect-history-api-fallback": "^1.6.0",
+    "express": "^4.17.1",
+    "js-md5": "^0.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.5.0",
+    "nodemon": "^2.0.7",
+    "portal-vue": "^2.1.7",
+    "vue": "^2.6.12"
+  }
+}

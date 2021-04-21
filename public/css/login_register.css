@@ -1,0 +1,157 @@
+
+    @font-face {
+        font-family: 'Morena';
+        font-weight: bold;
+        color: rgba(50, 60, 107, 0.64);
+        src: url('Morena.ttf');
+    }
+    *{
+        font-family: 'Morena';
+    }
+
+    .navcolor{
+        background:rgba(198, 212, 255, 0.64);
+    }
+
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    .container{
+        padding-top: 1em;
+    }
+
+    .box{
+        padding:60px 0px;
+    }
+    .box-part{
+        background:rgba(198, 212, 255, 0.64);
+        border-radius:35px;
+        padding:40px 0px;
+        margin:30px 0px;
+    }
+    a, a:hover, a:visited, a:active
+    {
+        text-decoration: none !important;
+        border-bottom:2px solid #0062cc;
+    }
+
+    .noborderalink, .noborderalink:hover, .noborderalink:visited, .noborderalink:active{
+        border-bottom: none;
+    }
+
+    #space{
+        padding-top: 1em;             
+    }
+
+    .centercustom{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .user_card {
+        height: 400px;
+        width: 350px;
+        margin-top: auto;
+        margin-bottom: auto;
+        background: rgba(198, 212, 255, 0.64);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+    }
+    .brand_logo_container {
+        position: absolute;
+        height: 170px;
+        width: 170px;
+        top: -75px;
+        border-radius: 50%;
+        background: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+    .brand_logo {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+    .form_container {
+        margin-top: 100px;
+    }
+    .login_btn {
+        width: 100%;
+        background: rgb(237, 27, 30) !important;
+        color: white !important;
+    }
+    .login_btn:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+    .login_container {
+        padding: 0 1rem;
+    }
+    .input-group-text {
+        background: rgb(237, 27, 30)  !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 0.25rem 0 0 0.25rem !important;
+    }
+    .input_user,
+    .input_pass:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+    .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+        background-color: rgb(237, 27, 30)  !important;
+    }
+    .pokemonImage{
+        height: 350px;
+        width: 260px;
+        
+    }
+    .SpaceAround{
+        margin: 1%;
+    }
+
+    .SpaceBottom{
+        margin-bottom: 2em;
+    }
+
+    .SpaceTop{
+        margin-top: 2em;
+    }
+
+    .ImageRounded{
+        border-radius:35px;
+    }
+
+    .Comparaison_window{
+        position:fixed;
+        top: 15%;
+        right:2%;
+    }
+
+    .thead{
+        height: 460px;
+        width: 196px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .IconeColumn{
+        height: 300px;
+    }
+
+    .imgcomparaison{
+        height: 25%;
+        width: 100%;
+    }

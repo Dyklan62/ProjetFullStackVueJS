@@ -1,0 +1,37 @@
+//create
+PUT http://localhost:3000/api/user/register
+Content-Type: application/json
+
+{ "Email" : "dyklan62@gmail.com", "Mdp" : "aa7c627557814fba72e76d6305ca6fc9", "Pseudo" : "neeza" }
+###
+//login
+POST http://localhost:3000/api/user/login
+Content-Type: application/json
+
+{ "Email" : "dyklan62@gmail.com", "Mdp" : "aa7c627557814fba72e76d6305ca6fc9"}
+###
+//findById
+PUT http://localhost:3000/api/user/18
+###
+//findByEmail
+POST http://localhost:3000/api/user/find/Email
+Content-Type: application/json
+
+{ "Email" : "dyklan62@gmail.com"}
+###
+//updateById
+PUT http://localhost:3000/api/user/update/18
+Content-Type: application/json
+
+{ "Email" : "dyklan@neeza", "Mdp" : "dyklan", "Pseudo" : "neeza" }
+###
+//updateMdpById
+PUT http://localhost:3000/api/user/update/MDP
+Content-Type: application/json
+
+{ "userId" : 33,"OldMdp": "aa7c627557814fba72e76d6305ca6fc9", "Mdp" : "test"}
+###
+POST  http://localhost:3000/api/user/getAll
+###
+//DELETE http://localhost:3000/user/5
+###

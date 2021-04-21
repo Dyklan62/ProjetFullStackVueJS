@@ -1,0 +1,17 @@
+$body-bg: #000;
+$body-color: #111;
+
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+#Logo{
+    width: 100px;
+    height: 50px;
+}
+.navbar-right{
+    padding-right: 2%;
+}
+
+#Menu{
+    height: 95px;
+}

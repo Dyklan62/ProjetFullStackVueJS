@@ -33,9 +33,6 @@ var Login = Vue.component("Login", {
             <div class="d-flex justify-content-center links">
               Nouveau ?<a href="/register" class="ml-2"> Inscription</a>
             </div>
-            <div class="d-flex justify-content-center links">
-              <a href="/forgetPassword">Mot de passe oublié ?</a>
-            </div>
           </div>
         </div>
       </div>

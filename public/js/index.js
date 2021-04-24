@@ -32,3 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     });
   });
+
+  /*{ path: "/Account", component: Account,beforeEnter: (to, from, next) => {
+        if(!isToken()) next('/login') 
+        else next()}
+      },*/

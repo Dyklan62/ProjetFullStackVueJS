@@ -51,11 +51,7 @@ var Dashboard = Vue.component("Dashboard", {
             </div>
         </div>
       </div>
-      <div v-else>
-        <div class="container">
-          <h1>Acceuil</h1>
-        </div>
-      </div>
+      <Accueil v-else></Accueil>
     `,
   data() {
     return {

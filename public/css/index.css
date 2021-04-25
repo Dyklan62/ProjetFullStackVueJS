@@ -12,6 +12,6 @@ $body-color: #111;
     padding-right: 2%;
 }
 
-#Menu{
-    height: 95px;
+.Menu{
+    height: 150px;
 }

@@ -5,6 +5,7 @@ saveToken = (id,token) => {
 getToken = () => {
     var currentUser = JSON.parse(localStorage.getItem('user'));
     if(currentUser){
+        
         return currentUser.Token;
     }
     else{

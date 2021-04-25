@@ -12,6 +12,7 @@ var Login = Vue.component("Login", {
           </div>
           <div	id="login" class="d-flex justify-content-center form_container">
             <form>
+            <h5 class="text-center bd-highlight text-wrap">Connexion</h5>
               <div class="input-group mb-3">
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user">Email</i></span>
@@ -32,9 +33,6 @@ var Login = Vue.component("Login", {
           <div class="mt-4">
             <div class="d-flex justify-content-center links">
               Nouveau ?<a href="/register" class="ml-2"> Inscription</a>
-            </div>
-            <div class="d-flex justify-content-center links">
-              <a href="/forgetPassword">Mot de passe oublié ?</a>
             </div>
           </div>
         </div>

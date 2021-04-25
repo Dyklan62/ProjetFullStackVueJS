@@ -10,7 +10,7 @@ var Account = Vue.component("Account", {
                 <img src="../img/Login_register_logo.png" class="brand_logo" alt="Logo">
               </div>
             </div>
-            <div id="login" class="text-center d-flex justify-content-center form_container">
+            <div class="text-center d-flex justify-content-center form_container">
               <form>
               <h5 class="bd-highlight text-wrap">Gestion du compte</h5>
               <p class="lead">

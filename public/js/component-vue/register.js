@@ -12,6 +12,7 @@ var Register = Vue.component("Register", {
           </div>
           <div class="d-flex justify-content-center form_container">
             <form>
+            <h5 class="text-center bd-highlight text-wrap">Incription</h5>
               <div class="input-group mb-3">
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user">Email</i></span>

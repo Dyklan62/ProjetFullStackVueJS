@@ -14,9 +14,7 @@ const User = function (user) {
                     console.log("res_code",err.code);
                     return reject(err)
                 }
-                console.log("created User: ", { id: res.insertId, ...newUser });
                 res.code='success_create'
-                console.log("res_code",res.code);
                 resolve(res)
             });
         });
@@ -26,12 +24,10 @@ const User = function (user) {
         return new Promise((resolve,reject) => { 
             sql.query(`SELECT * FROM User WHERE Email = ? AND Mdp = ?`,[user.Email,user.Mdp] ,(err, res) => {
                 if (err) {
-                    console.log("res_code",err.code);
                     return reject(err);
                 }
                 else if(res == ''){
                     res.code='error_login';
-                    console.log("res_code",res.code);
                     return reject(res);
                 }
                 console.log("login User: ", res);
@@ -50,7 +46,6 @@ const User = function (user) {
                 return reject(err);
             }
             res.code='success_findById';
-            console.log("res_code",res.code);
             res.Email= res[0].Email;
             res.Pseudo= res[0].Pseudo;
             resolve(res)
@@ -199,31 +194,5 @@ User.updatePseudoById = (id,Pseudo) => {
             });
         });
 };
-/*
-    User.removeById = (id, result) => {
-        sql.query("DELETE FROM User WHERE id = ?", id, (err, res) => {
-            if (err) {
-            console.log("error: ", err);
-            return;
-            }
 
-            if (res.affectedRows == 0) {
-            return;
-            }
-
-            console.log("deleted User with id: ", id);
-        });
-    };
-
-    User.removeAll = (result) => {
-        sql.query("DELETE FROM User", (err, res) => {
-            if (err) {
-            console.log("error: ", err);
-            return;
-            }
-
-            console.log(`deleted ${res.affectedRows} Users`);
-        });
-    };
-*/
 module.exports = User;

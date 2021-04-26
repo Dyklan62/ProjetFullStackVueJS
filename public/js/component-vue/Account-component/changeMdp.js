@@ -39,47 +39,67 @@ var ChangeMdp = Vue.component("ChangeMdp", {
     </div>`,
   data() {
     return {
+      Loged: isToken(),
+      token: getToken(),
+      user: getId(),
       IsEmailExist: false,
       Email: null,
       Mdp : null ,
       OldMdp : null,
     };
   },
+  async mounted() {
+        await axios({
+            method: 'put',
+            url: 'api/user/Auth',
+            headers: {
+              Authorization: `Bearer ${this.token} ${this.user}`,
+            },
+        })
+        .catch((error) => {
+          if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+            clearToken();
+            alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+            this.$router.go();
+            };
+        });
+  },
    methods: {
       async update() {
         if(this.OldMdp && this.Mdp){
-        var user = getId();
-          try {
             if (confirm("Etes vous sûr de vouloir changer votre mot de passe ?")) {
               var token = getToken();
-                const response = await axios({
+                await axios({
                     method: 'put',
                     url: 'api/user/update/MDP',
                     headers: {
-                      Authorization: `Bearer ${token} ${user}`,
+                      Authorization: `Bearer ${this.token} ${this.user}`,
                     },
                     data: {
-                        userId : user,
+                        userId : this.user,
                         OldMdp : md5(this.OldMdp),
                         Mdp : md5(this.Mdp),
                     }
-                });
-                this.result_message = response.status;
-                if(response.status == 200){
+                })
+                .then(() => {
                     alert("Mot de passe changé");
                     this.$router.push("/Account");
                     this.$router.go(0);
-                }
+                })
+                .catch((error) => {
+                  if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                    clearToken();
+                    alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+                    this.$router.go();
+                    };
+
+                    //!gestion erreur
+                });
             } else {
               alert("Mot de passe inchangé , vous avez refusé");
             }
-          } catch (error) {
-            console.log(error);
-            if(error.code == 401){
-            alert("Mot de passe inchangé , erreur ancien mot de passe");
-            }
-
-          }
+        }else{
+          alert("Mot de passe inchangé ,veuillez remplir les deux champs");
         }
       }
     },

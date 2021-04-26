@@ -48,23 +48,38 @@ var AddRealPokemon = Vue.component("AddRealPokemon", {
       };
     },
     async mounted() {
-      try {
-        const response = await axios({
-            method: "get",
-            url: "https://pokeapi.co/api/v2/pokemon?limit=1118",
-          });
-          this.Noms=response.data.results;
-
-      } catch (error) {
-        this.Email = "failed to get real Pokemon list";
-        console.error(error);
-      }
+      await axios({
+        method: "get",
+        url: "https://pokeapi.co/api/v2/pokemon?limit=1118",
+      })
+      .then((response) => {
+        this.Noms=response.data.results;
+      })
+      .catch(() => {
+        //!gestion erreur
+        alert("Erreur ,Pokemon non accessible");
+        this.$router.go('/');
+      });
+      await axios({
+        method: 'put',
+        url: 'api/user/Auth',
+        headers: {
+          Authorization: `Bearer ${this.token} ${this.user}`,
+        },
+    })
+    .catch((error) => {
+      if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+        clearToken();
+        alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+        this.$router.go();
+        };
+    });
+        
     },
     methods: {
        async AddPokemon() {
         try {
           if (confirm("Etes vous sûr de vouloir ajouter ce pokemon ?")) {
-
                 const response = await axios({
                   method: "get",
                   url: this.Pokemon.url,
@@ -84,18 +99,23 @@ var AddRealPokemon = Vue.component("AddRealPokemon", {
                   this.Evolution =1;
                 }else{
                   reponseId--;
-                  const response3 = await axios({
+                  await axios({
                     method: "get",
                     url: `https://pokeapi.co/api/v2/pokemon-species/${reponseId}`,
+                  })
+                  .then((response3) => {
+                    if(response3.data.evolves_from_species == undefined ){
+                      this.Evolution =2;
+                    }
+                    else{
+                      this.Evolution=3;
+                    }
+                  })
+                  .catch((error) => {
+                      alert("Erreur ,Evolution non accessible");
                   });
-                  if(response3.data.evolves_from_species == undefined ){
-                    this.Evolution =2;
-                  }
-                  else{
-                    this.Evolution=3;
-                  }
                 }
-                const response4 = await axios({
+                await axios({
                     method: 'put',
                     url: 'api/pokemon/add',
                     headers: {
@@ -108,18 +128,25 @@ var AddRealPokemon = Vue.component("AddRealPokemon", {
                       Image: this.Image,
                       userId: this.user,
                     }
+                })
+                .then(() => {
+                  alert("Pokemon ajouté");
+                  this.$router.push("/");
+                  this.$router.go(0);
+                })
+                .catch((error) => {
+                  if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                    clearToken();
+                    alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+                    this.$router.go();
+                    };
+                  //!gestion erreur
                 });
-                this.result_message = response4.status;
-
-                alert("Pokemon ajouté");
-                this.$router.push("/");
-                this.$router.go(0);
               } else {
                 alert("Le pokemon n'a pas été ajouté");
               }
             } catch (error) {
                 alert("Le pokemon n'a pas pu etre ajouté");
-                console.error(error);
             }
       },
     },

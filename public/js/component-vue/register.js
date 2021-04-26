@@ -58,8 +58,7 @@ var Register = Vue.component("Register", {
    methods: {
       async register() {
         console.log(this.Mdp)
-            try {
-                const response = await axios({
+                await axios({
                     method: 'put',
                     url: 'api/user/register',
                     data: {
@@ -67,18 +66,27 @@ var Register = Vue.component("Register", {
                         Mdp : md5(this.Mdp),
                         Pseudo: this.Pseudo ,
                     }
+                })
+                .then((response) => {
+                  if(response.data.token){
+                    alert("Vous etes inscrit !");
+                    this.$router.push("/");
+                    this.$router.go(0)
+                  }
+                })
+                .catch((error) => {
+                  if(error.response.status == 500){
+                    alert("Aucun champ ne peut etre vide");
+                  }
+                  if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                    clearToken();
+                    alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+                    this.$router.go();
+                    };
+                    if(error.response.status == 409){
+                      alert("vous étes deja inscrit ou votre Pseudo est deja utilisé");
+                    }
                 });
-                if(response.status == 201){
-                  alert("Vous etes inscrit !");
-                  this.$router.push("/");
-                  this.$router.go(0)
-              }
-            } catch (error) {
-                if(error.message == 'Request failed with status code 409'){
-                  alert("vous étes deja inscrit ou votre Pseudo est deja utilisé");
-                }
-                console.error(error);
-            }
       }
     },
   });

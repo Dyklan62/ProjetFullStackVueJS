@@ -48,29 +48,33 @@ var Login = Vue.component("Login", {
   },
   methods: {
     async login() {
-      try {
-          const response = await axios({
+          await axios({
               method: 'post',
               url: 'api/user/login',
               data: {
                   Email : this.Email, 
                   Mdp : md5(this.Mdp),
               }
-          });
-          this.result_message = response.status;
-          if(response.data.token){
+          })
+          .then((response) => {
+            if(response.data.token){
               saveToken(response.data.userId,response.data.token);
               var token = getToken();
               alert("Vous etes connecté !");
               this.$router.push("/");
               this.$router.go(0);
-          }
-      } catch (error) {
-        if(error.message == 'Request failed with status code 422'){
-          alert("connexion échoué , Email ou mot de passe invalide");
-        }
-          console.error(error);
-      }
+            }
+          })
+          .catch((error) => {
+            if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+              clearToken();
+              alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+              this.$router.go();
+              };
+              if(error.response.status == 422){
+                alert("connexion échoué , Email ou mot de passe invalide");
+              }
+          });
     },
   }
 });

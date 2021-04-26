@@ -38,30 +38,34 @@ var Account = Vue.component("Account", {
     </div>`,
     data() {
       return {
+        Loged: isToken(),
+        token: getToken(),
+        user: getId(),
         Email : null ,
         Pseudo: null,
       };
     },
     async mounted() {
-        var user = getId();
-        try {
-          var token = getToken();
-            const response = await axios({
+            await axios({
                 method: 'put',
                 url: 'api/user/Account',
                 headers: {
-                  Authorization: `Bearer ${token} ${user}`,
+                  Authorization: `Bearer ${this.token} ${this.user}`,
                 },
                 data: {
-                    userID : user, 
+                    userID : this.user, 
                 }
+            })
+            .then((response) => {
+              this.Email = response.data.Email;
+              this.Pseudo = response.data.Pseudo;
+            })
+            .catch((error) => {
+              if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                clearToken();
+                alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+                this.$router.go();
+                };
             });
-            this.Email = response.data.Email;
-            this.Pseudo = response.data.Pseudo;
-            
-        } catch (error) {
-            this.Email = 'failed to get Email'
-            console.error(error);
-        }
       },
 });

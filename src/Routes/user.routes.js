@@ -13,14 +13,8 @@ Router.put("/update/Pseudo",Auth ,UserControler.routeupdatePseudoById);
 Router.put("/update/Email",Auth ,UserControler.routeupdateEmailById);
 Router.post("/login", UserControler.routelogin);
 Router.post("/find/Email",UserControler.routefindByEmail);
-
-
-
-//todo : a supprimé car inutile
-Router.put("/:userID",Auth, UserControler.routefindById);
-
-
-//todo : a supprimé car inutile
-Router.post("/getAll",UserControler.routegetAll);
+Router.put("/Auth",Auth, (req, res) => {
+    res.status(200).send('auth');
+});
 
 module.exports = Router;

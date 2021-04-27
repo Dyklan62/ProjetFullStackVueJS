@@ -1,7 +1,11 @@
 var ChangeEmail = Vue.component("ChangeEmail", {
     template: `
     <div>
-        <a class="noborderalink" href="/Account"><img src="/img/Home.png" alt=""></a>
+        <a class="noborderalink">
+          <router-link class="nav-link noborderalink" to="/Account">
+            <img src="/img/Home.png" alt="">
+          </router-link>
+        </a>
         <div id="forgot" class="container h-75">
         <div class="d-flex justify-content-center h-100">
           <div class="user_card">
@@ -57,8 +61,16 @@ var ChangeEmail = Vue.component("ChangeEmail", {
     },
     methods: {
         async update() {
-                if (confirm("Etes vous sûr de vouloir changer votre Email ?")) {
-                    await axios({
+          await swal({
+            title: "Etes vous sur?",
+            text: "Etes vous sur de changer d'email",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((update) => {
+            if(update){
+                    axios({
                         method: 'put',
                         url: 'api/user/update/Email',
                         headers: {
@@ -70,21 +82,25 @@ var ChangeEmail = Vue.component("ChangeEmail", {
                         }
                     })
                     .then(() => {
-                        alert("Email changé");
-                        this.$router.push("/Account");
-                        this.$router.go(0);
+                        swal("Update","Email changé","success")
+                        .then(() => {
+                          this.$router.push("/Account");
+                          this.$router.go(0);
+                        });
                     })
                     .catch((error) => {
                       if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
                         clearToken();
-                        alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+                        swal("","Déconnexion", "votre session est expirée", "error");
                         this.$router.go();
                         };
-                        //!gestion erreurs
+                        swal("","impossible de changer votre email","info");
                     });
-                } else {
-                  alert("Email inchangé , vous avez refusé");
-                }
+                  }
+                  else {
+                    swal("","Email inchangé , vous avez refusé","info");
+                  };
+                }) 
           }
     }
 });

@@ -1,7 +1,11 @@
 var Compare = Vue.component("Compare", {
     template: `
     <div>
-        <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
+        <a class="noborderalink">
+            <router-link class="nav-link noborderalink" to="/">
+                <img src="/img/Home.png" alt="">
+            </router-link>
+        </a>
         <h1 class="text-center">COMPARAISON DES POKEMON</h1>
         <div class="container">
             <div class="row align-items-start">

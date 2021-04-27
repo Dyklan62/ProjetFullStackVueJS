@@ -72,6 +72,7 @@
     };
 
     exports.routeupdatePseudoById = (req, res) => {
+        if(!req.body.Pseudo) throw 'erreur pseudo vide';
         return User
         .updatePseudoById(req.body.userId,req.body.Pseudo)
         .then((result) => res.send(result.code))

@@ -48,8 +48,9 @@ var Login = Vue.component("Login", {
   },
   methods: {
     async login() {
+    if(this.Email && this.Mdp){
           await axios({
-              method: 'post',
+              method: 'put',
               url: 'api/user/login',
               data: {
                   Email : this.Email, 
@@ -60,21 +61,28 @@ var Login = Vue.component("Login", {
             if(response.data.token){
               saveToken(response.data.userId,response.data.token);
               var token = getToken();
-              alert("Vous etes connecté !");
-              this.$router.push("/");
-              this.$router.go(0);
+              swal("","Vous etes connecté !","success")
+                .then(() => {
+                this.$router.push("/");
+                this.$router.go(0);
+                });
             }
           })
           .catch((error) => {
             if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
               clearToken();
-              alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-              this.$router.go();
+              swal("","Vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                  .then(() => {
+                    this.$router.go();
+                  });
               };
               if(error.response.status == 422){
-                alert("connexion échoué , Email ou mot de passe invalide");
+                swal("","Connexion échoué , Email ou mot de passe invalide","error");
               }
           });
-    },
+      }else{
+        swal("","Les 2 champs doivent etre remplie !","error");
+      }
+   }
   }
 });

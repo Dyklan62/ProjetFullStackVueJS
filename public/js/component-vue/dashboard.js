@@ -99,7 +99,6 @@ var Dashboard = Vue.component("Dashboard", {
   },
   methods: {
     PokemonDetail(ID) {
-      console.log(ID);
       this.$router.push({ path: "/details", query: { ID: ID } });
     },
     async PokemonCopy(ID) {

@@ -126,19 +126,16 @@ var Compare = Vue.component("Compare", {
         if(this.CompareList[0].Nom == undefined){
             alert("Veuillez reselectionner vos pokemon à comparer");
             this.$router.back();
-            console.log('back');
         }
         this.ImageComparaison="/img/interogation.png";
         this.ComparaisonMessage='Avantages inconnus';
 
 
         if(this.CompareList[0].TypeInfo[0].Faible.includes(this.CompareList[1].Type)){
-            console.log('test faible 0');
             this.ImageComparaison="/img/inf.png";
             this.ComparaisonMessage='Le Pokemon n°2 a l\'avantage';
         }
         if(this.CompareList[1].TypeInfo[0].Faible.includes(this.CompareList[0].Type)){
-            console.log('test faible 1');
             this.ImageComparaison="/img/sup.png";
             this.ComparaisonMessage='Le Pokemon n°1 a l\'avantage';
         }

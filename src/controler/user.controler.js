@@ -8,7 +8,6 @@
                 Mdp : req.body.Mdp,
                 Pseudo : req.body.Pseudo,
             }
-            console.log(newUser);
             return User
             .create(newUser)
             .then((result) => res.status(201).send(result.code))
@@ -25,7 +24,6 @@
                 Email : req.body.Email,
                 Mdp : req.body.Mdp,
             };
-            console.log(req.body);
             User
             .LogIn(user)
             .then(result => {
@@ -81,7 +79,6 @@
 
     
     exports.routefindById = (req, res) => {
-            console.log(req.params.userID)
             return User
             .findById(req.params.userID)
             .then((result) => res.status(200).send(result.code))
@@ -89,7 +86,6 @@
     };
 
     exports.routeufindAccountById = (req, res) => {
-        console.log(req.body.userID)
         return User
         .findById(req.body.userID)
         .then((result) => {
@@ -106,7 +102,6 @@
             Email : req.body.Email,
             Mdp : req.body.Mdp,
         };
-        console.log(user);
         return User
         .findByEmail(user)
         .then(result => {

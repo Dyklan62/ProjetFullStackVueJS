@@ -2,7 +2,7 @@ var Register = Vue.component("Register", {
     template: `
     <div>
       <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
-      <div id="register" class="centercustom container h-75">
+      <div id="register" class=" container h-75">
       <div class="d-flex justify-content-center h-100">
         <div class="user_card">
           <div class="d-flex justify-content-center">
@@ -17,7 +17,7 @@ var Register = Vue.component("Register", {
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user">Email</i></span>
                 </div>
-                <input v-model="Email" type="text" name="Email" class="form-control input_user" value="" placeholder="Email">
+                <input type="email" v-model="Email"  name="Email" class="form-control input_user" value="" placeholder="Email">
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-append">

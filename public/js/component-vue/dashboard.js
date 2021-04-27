@@ -25,7 +25,7 @@ var Dashboard = Vue.component("Dashboard", {
               </div>	
               <h2>MES POKEMON :</h2>
               <h1>{{Fail}}</h1>
-              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-part text-center center-block" v-for="pokemon in PokemonList">
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-part Pokemonheight text-center center-block" v-for="pokemon in PokemonList">
                 <img class='pokemonImage ImageRounded SpaceBottom' :src="pokemon.Image"/>
                 <h3>{{pokemon.Nom}}</h3>
                 <h3>Type du pokemon: {{pokemon.Type}}</h3>

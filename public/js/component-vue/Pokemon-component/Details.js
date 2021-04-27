@@ -1,7 +1,11 @@
 var Details = Vue.component("Details", {
     template: `
     <div>
-      <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
+    <a class="noborderalink">
+      <router-link class="nav-link noborderalink" to="/">
+        <img src="/img/Home.png" alt="">
+      </router-link>
+    </a>
       <h1 class="text-center">{{Pokemon[0].Nom}} EN DETAIL: </h1>
       <div class="text-center centercustom box-part container">
                   <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 SpaceAround  text-center center-block">

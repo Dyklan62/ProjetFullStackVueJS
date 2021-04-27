@@ -57,9 +57,9 @@ var Register = Vue.component("Register", {
   },
    methods: {
       async register() {
-        console.log(this.Mdp)
+          if(this.Email && this.Mdp && this.Pseudo){
                 await axios({
-                    method: 'put',
+                    method: 'post',
                     url: 'api/user/register',
                     data: {
                         Email : this.Email, 
@@ -67,26 +67,31 @@ var Register = Vue.component("Register", {
                         Pseudo: this.Pseudo ,
                     }
                 })
-                .then((response) => {
-                  if(response.data.token){
-                    alert("Vous etes inscrit !");
+                .then(() => {
+                    swal("","Vous etes inscrit !","success")
+                    .then(() => {
                     this.$router.push("/");
-                    this.$router.go(0)
-                  }
+                    this.$router.go(0);
+                    });
                 })
                 .catch((error) => {
                   if(error.response.status == 500){
-                    alert("Aucun champ ne peut etre vide");
+                    swal("","Aucun champ ne peut etre vide","error");
                   }
                   if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
                     clearToken();
-                    alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-                    this.$router.go();
+                    swal("","Vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                    .then(() => {
+                      this.$router.go();
+                    });
                     };
                     if(error.response.status == 409){
-                      alert("vous étes deja inscrit ou votre Pseudo est deja utilisé");
+                      swal("","Vous étes deja inscrit ou votre Pseudo est deja utilisé","error");
                     }
                 });
+              }else{
+                swal("","Tout les champs doivent etre remplie !","error");
+              }
       }
     },
   });

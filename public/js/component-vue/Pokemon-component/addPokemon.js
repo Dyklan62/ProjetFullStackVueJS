@@ -2,7 +2,11 @@
 var AddPokemon = Vue.component("AddPokemon", {
   template: `
     <div>
-        <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
+        <a class="noborderalink">
+          <router-link class="nav-link noborderalink" to="/">
+            <img src="/img/Home.png" alt="">
+          </router-link>
+        </a>
         <div id="register" class="centercustom container h-75">
         <div class="d-flex justify-content-center h-100">
         <div class="user_card">
@@ -85,17 +89,26 @@ var AddPokemon = Vue.component("AddPokemon", {
       .catch((error) => {
         if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
           clearToken();
-          alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-          this.$router.go();
+          swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+          .then(() => {
+            this.$router.go();
+            });
           };
-        //!gestion erreur
       });
   },
   methods: {
      async AddPokemon() {
-        if (confirm("Etes vous sûr de vouloir ajouter ce pokemon ?")) {
-              await axios({
-                  method: 'put',
+      await swal({
+        title: "Etes vous sur?",
+        text: "Etes vous sûr de vouloir ajouter ce pokemon ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((Pokemon) => {
+        if(Pokemon){
+               axios({
+                  method: 'post',
                   url: 'api/pokemon/add',
                   headers: {
                     Authorization: `Bearer ${this.token} ${this.user}`,
@@ -109,22 +122,26 @@ var AddPokemon = Vue.component("AddPokemon", {
                   }
               })
               .then(() => {
-                alert("Pokemon ajouté");
+                swal("","Pokemon ajouté","success")
+                .then(() => {
                 this.$router.push("/");
                 this.$router.go(0);
+                });
               })
               .catch((error) => {
                 if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
                   clearToken();
-                  alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-                  this.$router.go();
+                  swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                  .then(() => {
+                    this.$router.go();
+                  });
                   };
-                //!gestion erreur
-                alert("Le pokemon n'a pas pu etre ajouté");
+                swal("","Le pokemon n'a pas pu etre ajouté","error");
               });
         } else {
-          alert("Le pokemon n'a pas été ajouté");
+          swal("","Le pokemon n'a pas été ajouté","error");
         }
-    },
-  },
+    })
+  }
+ }
 });

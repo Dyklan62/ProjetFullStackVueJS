@@ -2,8 +2,10 @@
       template: ``,
       created: function() {
         clearToken()
-        alert("Vous etes déconnecté !");
-        this.$router.push("/");
-        this.$router.go(0)
+        swal("","Vous etes déconnecté !","success")
+                .then(() => {
+                this.$router.push("/");
+                this.$router.go(0);
+                });
     }
     });

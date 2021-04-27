@@ -6,17 +6,21 @@ var Dashboard = Vue.component("Dashboard", {
           <h2>OPTIONS :</h2>
           <div class="row align-items-start">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="/addPokemon">
-                  <div class="box-part text-center">
-                      <img src="../../img/add_poke.png" alt="img to add pokemon">
-                  </div>
+                <a>
+                  <router-link class="nav-link noborderalink" to="/addPokemon">
+                    <div class="box-part text-center">
+                        <img src="../../img/add_poke.png" alt="img to add pokemon">
+                    </div>
+                  </router-link> 
                 </a>
               </div>	
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="/addRealPokemon">
-                  <div class="box-part text-center">
-                      <img src="../../img/supr_poke.png" alt="img to delete pokemon">
-                  </div>
+                <a>
+                  <router-link class="nav-link noborderalink" to="/addRealPokemon">
+                    <div class="box-part text-center">
+                        <img src="../../img/supr_poke.png" alt="img to delete pokemon">
+                    </div>
+                  </router-link>
                 </a>
               </div>	
               <h2>MES POKEMON :</h2>
@@ -69,7 +73,6 @@ var Dashboard = Vue.component("Dashboard", {
   },
   async mounted() {
     if (this.Loged) {
-      
       await axios({
           method: "put",
           url: "api/pokemon/list",
@@ -83,12 +86,14 @@ var Dashboard = Vue.component("Dashboard", {
         .catch((error) => {
           if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
             clearToken();
-            alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+            swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+            .then(() => {
             this.$router.go();
+            });
             };
-          this.Fail = "fail serveur";
-          alert("Les pokemon n'ont pas pu etre récupré");
-          console.error(error);
+          if(error.response.status == 500){
+          swal("","Les pokemon n'ont pas pu etre récupré","error");
+          }
         });
     }
   },
@@ -99,9 +104,17 @@ var Dashboard = Vue.component("Dashboard", {
     },
     async PokemonCopy(ID) {
       this.IdPokemon = ID;
-        if (confirm("Etes vous sûr de vouloir copier ce pokemon ?")) {
-          await axios({
-            method: "put",
+      await swal({
+        title: "Etes vous sur?",
+        text: "Etes vous sûr de vouloir copier ce pokemon ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((Pokemon) => {
+        if(Pokemon){
+          axios({
+            method: "patch",
             url: "api/pokemon/this/copy",
             headers: {
               Authorization: `Bearer ${this.token} ${this.user}`,
@@ -111,26 +124,40 @@ var Dashboard = Vue.component("Dashboard", {
             },
           })
           .then((response) => {
+            swal("","Pokemon copié","success")
+            .then(() => {
             this.Noms=response.data.results;
             this.$router.go();
+            });
           })
           .catch((error) => {
             if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
               clearToken();
-              alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+            .then(() => {
               this.$router.go();
+            });
               };
-            alert("Le pokemon n'a pas pu etre copié");
+            swal("","Le pokemon n'a pas pu etre copié","error");
           });
         } else {
-          alert("Le pokemon n'a pas été copié");
+          swal("","Le pokemon n'a pas été copié","error");
         }
+      });
     },
     async PokemonDelete(ID) {
       this.IdPokemon = ID;
-        if (confirm("Etes vous sûr de vouloir supprimer ce pokemon ?")) {
-          await axios({
-            method: "put",
+      await swal({
+        title: "Etes vous sur?",
+        text: "Etes vous sûr de vouloir supprimer ce pokemon ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((Pokemon) => {
+        if(Pokemon){
+          axios({
+            method: "delete",
             url: "api/pokemon/this/delete",
             headers: {
               Authorization: `Bearer ${this.token} ${this.user}`,
@@ -140,20 +167,25 @@ var Dashboard = Vue.component("Dashboard", {
             },
           })
           .then(() => {
-            alert("Pokemon supprimé");
+            swal("","Pokemon supprimé","success")
+            .then(() => {
               this.$router.go();
+            });
           })
           .catch(() => {
             if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
               clearToken();
-              alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-              this.$router.go();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+              .then(() => {
+                this.$router.go();
+              });
               };
-            alert("Le pokemon n'a pas pu etre supprimé");
+            swal("","Le pokemon n'a pas pu etre supprimé","error");
           });
         } else {
-          alert("Le pokemon n'est pas supprimé");
+          swal("","Le pokemon n'est pas supprimé","error");
         }
+      });
     },
     async PokemonCompareList(ID) {
       var list = this.CompareList;
@@ -187,10 +219,12 @@ var Dashboard = Vue.component("Dashboard", {
           .catch((error) => {
             if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
               clearToken();
-              alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-              this.$router.go();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+              .then(() => {
+                this.$router.go();
+              });
               };
-            alert("Les pokemons n'ont pas pu etre comparer");
+              swal("","Les pokemons n'ont pas pu etre comparer","error");
           });
         if (this.CompareList[0].EvolutionStep == "non") {
           this.CompareList[0].EvolutionStep =
@@ -212,10 +246,12 @@ var Dashboard = Vue.component("Dashboard", {
           .catch((error) => {
             if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
               clearToken();
-              alert("vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter");
-              this.$router.go();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+              .then(() => {
+                this.$router.go();
+              });
               };
-            alert("Les pokemons n'ont pas pu etre comparer");
+          swal("","Les pokemons n'ont pas pu etre comparer","error");
           });
         if (this.CompareList[1].EvolutionStep == "non") {
           this.CompareList[1].EvolutionStep =

@@ -32,9 +32,6 @@ app.use("/api/user",UserApi);
 
 app.use("/api/pokemon",PokemonApi);
 
-
-
-
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
   });

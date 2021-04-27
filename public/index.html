@@ -57,9 +57,9 @@
       <div class="Menu">
         <nav class="Menu navbar navbar-expand-lg navbar-light navcolor">
           <div class="Menu container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="mx-auto navbar-collapse" id="navbarNav">
               <ul class="nav navbar-nav mx-auto">
-                <div class="dropdown">
+                <div class="dropdown mx-auto">
                   <div
                     class="dropdown-toggle"
                     data-bs-toggle="dropdown"
@@ -115,22 +115,5 @@
     <body>
       <router-view></router-view>
     </body>
-    <div v-if="Loged == false">
-      <footer class="text-center">
-        <div class="sectionFooter">
-          <div>
-            <h4>Liens utilies</h4>
-            <hr>
-            <p> Déjà inscrit ? <a class="awhite" href="/login" class="ml-2">Connexion</a></p>
-            <p> Nouveau ?<a class="awhite" href="/register" class="ml-2"> Inscription</a></p>
-          </div>
-          <div>
-            <h4>Contact</h4>
-            <hr>
-            <p>Email : dyklan62@gmail.com</p>
-          </div>
-        </div>
-      </footer>
-    </div>
   </div>
 </html>

@@ -37,6 +37,11 @@
         padding:40px 0px;
         margin:30px 0px;
     }
+
+    .Pokemonheight {
+        height: 770px;
+    }
+
     a, a:hover, a:visited, a:active
     {
         text-decoration: none !important;
@@ -55,6 +60,7 @@
         margin-top: auto;
         margin-bottom: auto;
     }
+
     .user_card {
         height: 400px;
         width: 350px;
@@ -178,6 +184,10 @@
         box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     }
 
+    #login,#register{
+        margin-bottom: 6.6%;
+    }
+
     .sectiontrie{
         display: flex;
     }
@@ -197,23 +207,7 @@
         padding: 0%;
         margin: 0%;
     }
-    footer{
-        width: 100%;
-        background-color: #5c7b93;
-        padding-bottom: 1%;
-        color: blanchedalmond;
-        position: relative;
-        top: 7.8em;
-        left: 0px;
-        bottom: 0px;
-    }
 
-    .sectionFooter{
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        justify-content: space-around;
-    }
 
     .awhite{
         text-decoration: none !important;

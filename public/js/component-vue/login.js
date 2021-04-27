@@ -2,7 +2,7 @@ var Login = Vue.component("Login", {
     template: `
     <div>
       <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
-      <div id="login" class="container h-75">
+      <div id="login" class="container  h-75">
       <div class="d-flex justify-content-center h-100">
         <div class="user_card">
           <div class="d-flex justify-content-center"> 
@@ -17,7 +17,7 @@ var Login = Vue.component("Login", {
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user">Email</i></span>
                 </div>
-                <input v-model="Email" type="text" name="Email" class="form-control input_user" value="" placeholder="Email">
+                <input v-model="Email" type="email" name="Email" class="form-control input_user" value="" placeholder="Email">
               </div>
               <div class="input-group mb-2">
                 <div class="input-group-append">

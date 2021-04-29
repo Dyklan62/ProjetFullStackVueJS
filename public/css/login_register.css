@@ -22,6 +22,7 @@
         margin: 0;
         padding: 0;
         height: 100%;
+        width: 100%;
     }
 
     .container{
@@ -34,7 +35,7 @@
     .box-part{
         background:rgba(198, 212, 255, 0.64);
         border-radius:35px;
-        padding:40px 0px;
+        padding:20px 0px;
         margin:30px 0px;
     }
 
@@ -123,8 +124,7 @@
         background-color: rgb(237, 27, 30)  !important;
     }
     .pokemonImage{
-        height: 350px;
-        width: 260px;
+        height: 250px;
         
     }
     .SpaceAround{
@@ -154,7 +154,7 @@
     }
 
     .thead{
-        height: 460px;
+        height: 363px;
         width: 196px;
         display: flex;
         align-items: center;
@@ -166,7 +166,7 @@
     }
 
     .imgcomparaison{
-        height: 25%;
+        height: 30%;
         width: 100%;
     }
 
@@ -193,8 +193,7 @@
     }
 
     .HomeImg{
-        height: 470px;
-        width: 600px;
+        height: 280px;
     }
 
     .alinkimage{
@@ -217,3 +216,8 @@
         color: black;
         text-decoration:black !important;
     }
+
+
+  .row,.row>*{
+      margin-right: 0px !important ;
+  }

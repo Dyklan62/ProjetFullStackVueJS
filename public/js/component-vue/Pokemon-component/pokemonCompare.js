@@ -9,8 +9,8 @@ var Compare = Vue.component("Compare", {
         <h1 class="text-center">COMPARAISON DES POKEMON</h1>
         <div class="container">
             <div class="row align-items-start">
-                <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-0 SpaceAround  text-center center-block">
-                    <table class="table">
+                <div  class="col-lg-2 col-md-2 col-sm-2 d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block SpaceAround text-center center-block">
+                    <table class="table col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <thead>
                             <tr class="thead">
                             <th class="thead">#</th>
@@ -35,12 +35,12 @@ var Compare = Vue.component("Compare", {
                         </tbody>
                     </table>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 SpaceAround box-part text-center center-block">
-                    <img class='pokemonImage ImageRounded SpaceBottom' :src="CompareList[0].Image"/>
-                    <table class="table">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 SpaceAround box-part text-center center-block">
+                    <img class='col-lg-12 col-md-12 col-sm-12 col-xs-12 pokemonImage ImageRounded SpaceBottom' :src="CompareList[0].Image"/>
+                    <table class="table col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <thead>
                             <tr>
-                            <th scope="col">{{CompareList[0].Nom}}</th>
+                            <th  scope="col">{{CompareList[0].Nom}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,24 +62,23 @@ var Compare = Vue.component("Compare", {
                         </tbody>
                     </table>
                 </div>
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0 SpaceAround text-center center-block">
-                    <table class="table">
-                        <thead>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 SpaceAround text-center center-block">
+                    <table class="table col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <thead class="d-none d-sm-block">
                             <tr>
-                            <th class="IconeColumn" scope="col"><img class='imgcomparaison' :src="ImageComparaison"/></th>
+                            <th class=" IconeColumn" scope="col"><img class='imgcomparaison' :src="ImageComparaison"/></th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ComparaisonMessage}}</td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <tbody>
-                        <tr>
-                            <td>{{ComparaisonMessage}}</td>
-                        </tr>
-
-                    </tbody>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 SpaceAround box-part text-center center-block">
-                    <img class='pokemonImage ImageRounded SpaceBottom' :src="CompareList[1].Image"/>
-                    <table class="table">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 SpaceAround box-part text-center center-block">
+                    <img class='col-lg-12 col-md-12 col-sm-12 col-xs-12 pokemonImage ImageRounded SpaceBottom' :src="CompareList[1].Image"/>
+                    <table class="table col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <thead>
                             <tr>
                             <th scope="col">{{CompareList[1].Nom}}</th>
@@ -124,8 +123,10 @@ var Compare = Vue.component("Compare", {
     },
     async mounted() {
         if(this.CompareList[0].Nom == undefined){
-            alert("Veuillez reselectionner vos pokemon à comparer");
+            swal("","Veuillez reselectionner vos pokemon à comparer","error")
+            .then(() => {
             this.$router.back();
+            });
         }
         this.ImageComparaison="/img/interogation.png";
         this.ComparaisonMessage='Avantages inconnus';

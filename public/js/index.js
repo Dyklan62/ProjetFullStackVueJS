@@ -2,8 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
     var routes = [
       { path: "/", component: Dashboard },
-      { path: "/login", component: Login },
-      { path: "/register", component: Register},
+      { path: "/login", component: Login,beforeEnter: (to, from, next) => {
+        if(isToken()) next('/') 
+        else next()}},
+      { path: "/register", component: Register,beforeEnter: (to, from, next) => {
+        if(isToken()) next('/') 
+        else next()}},
       { path: "/Account", component: Account,beforeEnter: (to, from, next) => {
         if(!isToken()) next('/login') 
         else next()}

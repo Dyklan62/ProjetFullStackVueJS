@@ -9,7 +9,7 @@ var Dashboard = Vue.component("Dashboard", {
                 <a>
                   <router-link class="nav-link noborderalink" to="/addPokemon">
                     <div class="box-part text-center">
-                        <img src="../../img/add_poke.png" alt="img to add pokemon">
+                        <img class="HomeImg col-lg-8 col-md-8 col-sm-8 col-xs-12" src="../../img/add_poke.png" alt="img to add pokemon">
                     </div>
                   </router-link> 
                 </a>
@@ -18,7 +18,7 @@ var Dashboard = Vue.component("Dashboard", {
                 <a>
                   <router-link class="nav-link noborderalink" to="/addRealPokemon">
                     <div class="box-part text-center">
-                        <img src="../../img/supr_poke.png" alt="img to delete pokemon">
+                        <img class="HomeImg col-lg-8 col-md-8 col-sm-8 col-xs-12" src="../../img/supr_poke.png" alt="img to delete pokemon">
                     </div>
                   </router-link>
                 </a>
@@ -26,7 +26,7 @@ var Dashboard = Vue.component("Dashboard", {
               <h2>MES POKEMON :</h2>
               <h1>{{Fail}}</h1>
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-part Pokemonheight text-center center-block" v-for="pokemon in PokemonList">
-                <img class='pokemonImage ImageRounded SpaceBottom' :src="pokemon.Image"/>
+                <img class='col-lg-8 col-md-8 col-sm-8 col-xs-12 pokemonImage ImageRounded SpaceBottom' :src="pokemon.Image"/>
                 <h3>{{pokemon.Nom}}</h3>
                 <h3>Type du pokemon: {{pokemon.Type}}</h3>
                 <h3>Etape d'évolution: {{pokemon.EvolutionStep}}</h3>

@@ -50,7 +50,7 @@ Pokemon.findTypelist = (IdTypeList) => {
 
 Pokemon.findTypes = () => {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * FROM listetype `, (err, res) => {
+    sql.query(`SELECT * FROM Listetype `, (err, res) => {
       if (err) {
         return reject(err);
       }

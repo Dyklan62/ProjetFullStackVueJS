@@ -1,5 +1,6 @@
 const sql = require("./Db.connection");
 
+//fonction controler pour pokemon
 
 const Pokemon = function (pokemon) {
   this.ID = pokemon.ID;
@@ -8,8 +9,6 @@ const Pokemon = function (pokemon) {
   this.EvolutionStep = req.body.EvolutionStep;
   this.Image = req.body.Image;
 };
-
-// TODO enlever les comments
 
 Pokemon.AddPokemon = (newPokemon) => {
   return new Promise((resolve, reject) => {

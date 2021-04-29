@@ -4,7 +4,7 @@ const Auth = require('../Auth/Auth');
 
 const UserControler = require('../controler/user.controler');
 
-//Account and user
+//fonction user
 Router.put("/Account",Auth,UserControler.routeufindAccountById);
 Router.post("/register", UserControler.routecreate);
 Router.put("/update/account/:userID",Auth, UserControler.routeupdateById);

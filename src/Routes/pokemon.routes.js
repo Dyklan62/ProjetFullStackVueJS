@@ -4,6 +4,7 @@ const Auth = require('../Auth/Auth');
 
 const PokemonControler = require('../controler/pokemon.controler');
 
+//fonction pokemon
 Router.put("/types",Auth,PokemonControler.routeurfindTypes);
 Router.put("/type/list",Auth,PokemonControler.routeurfindtypelist);
 Router.put("/list",Auth,PokemonControler.routeurgetlist);

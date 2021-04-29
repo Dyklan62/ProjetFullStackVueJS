@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
+//évite les crach quand on refresh 
 app.use("/", express.static("public"));
 app.use(
   history({
@@ -25,11 +26,11 @@ app.use(
     htmlAcceptHeaders: ["text/html", "application/xhtml+xml"],
   })
 );
-
+//expose public
 app.use("/", express.static("public"));
-
+//oute back des requetes appartenant a user
 app.use("/api/user",UserApi);
-
+//oute back des requetes appartenant aux pokemon
 app.use("/api/pokemon",PokemonApi);
 
 app.listen(port, () => {

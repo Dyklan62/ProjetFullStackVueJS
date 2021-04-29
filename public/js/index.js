@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
+  //route vuejs avec controle des login et props qaund nécessaire 
     var routes = [
       { path: "/", component: Dashboard },
       { path: "/login", component: Login,beforeEnter: (to, from, next) => {
@@ -39,12 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
       { path: '/:pathMatch(.*)*', component: Erreur },
     ];
   
+    //implémentation du routeur 
     var router = new VueRouter({
       routes: routes,
       mode: "history",
       base: "/",
     });
-
+//instance de vue
     new Vue({
       el: "#app-root",
       router: router,

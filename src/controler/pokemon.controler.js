@@ -1,7 +1,7 @@
 const Pokemon = require("../DB/Db.Pokemon.controler");
 const axios = require('axios');
 
-
+//requetes bdd pokemon
 
 exports.routeurAddPokemon = (req, res) => {
   var newPokemon = {

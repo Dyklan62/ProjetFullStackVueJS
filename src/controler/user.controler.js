@@ -1,7 +1,7 @@
         const User = require("../DB/Db.User.controler");
         const jwt = require('jsonwebtoken');
 
-
+//requetes bdd user
         exports.routecreate = (req, res) => {
             var newUser = {
                 Email : req.body.Email,

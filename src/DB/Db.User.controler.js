@@ -1,5 +1,6 @@
 const sql = require("./Db.connection");
 
+//fonction controler pour user
 const User = function (user) {
     this.ID = user.ID;
     this.email = user.email;

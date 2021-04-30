@@ -2,7 +2,7 @@ var Login = Vue.component("Login", {
     template: `
     <div>
       <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
-      <div id="login" class="container h-75">
+      <div id="login" class="container  h-75">
       <div class="d-flex justify-content-center h-100">
         <div class="user_card">
           <div class="d-flex justify-content-center"> 
@@ -17,7 +17,7 @@ var Login = Vue.component("Login", {
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user">Email</i></span>
                 </div>
-                <input v-model="Email" type="text" name="Email" class="form-control input_user" value="" placeholder="Email">
+                <input v-model="Email" type="email" name="Email" class="form-control input_user" value="" placeholder="Email">
               </div>
               <div class="input-group mb-2">
                 <div class="input-group-append">
@@ -48,29 +48,41 @@ var Login = Vue.component("Login", {
   },
   methods: {
     async login() {
-      try {
-          const response = await axios({
-              method: 'post',
+    if(this.Email && this.Mdp){
+          await axios({
+              method: 'put',
               url: 'api/user/login',
               data: {
                   Email : this.Email, 
                   Mdp : md5(this.Mdp),
               }
-          });
-          this.result_message = response.status;
-          if(response.data.token){
+          })
+          .then((response) => {
+            if(response.data.token){
               saveToken(response.data.userId,response.data.token);
               var token = getToken();
-              alert("Vous etes connecté !");
-              this.$router.push("/");
-              this.$router.go(0);
-          }
-      } catch (error) {
-        if(error.message == 'Request failed with status code 422'){
-          alert("connexion échoué , Email ou mot de passe invalide");
-        }
-          console.error(error);
+              swal("","Vous etes connecté !","success")
+                .then(() => {
+                this.$router.push("/");
+                this.$router.go(0);
+                });
+            }
+          })
+          .catch((error) => {
+            if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+              clearToken();
+              swal("","Vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                  .then(() => {
+                    this.$router.go();
+                  });
+              };
+              if(error.response.status == 422){
+                swal("","Connexion échoué , Email ou mot de passe invalide","error");
+              }
+          });
+      }else{
+        swal("","Les 2 champs doivent etre remplie !","error");
       }
-    },
+   }
   }
 });

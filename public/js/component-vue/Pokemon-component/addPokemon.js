@@ -2,7 +2,11 @@
 var AddPokemon = Vue.component("AddPokemon", {
   template: `
     <div>
-        <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
+        <a class="noborderalink">
+          <router-link class="nav-link noborderalink" to="/">
+            <img src="/img/Home.png" alt="">
+          </router-link>
+        </a>
         <div id="register" class="centercustom container h-75">
         <div class="d-flex justify-content-center h-100">
         <div class="user_card">
@@ -59,6 +63,9 @@ var AddPokemon = Vue.component("AddPokemon", {
   </div>`,
   data() {
     return {
+      Loged: isToken(),
+      token: getToken(),
+       user: getId(),
       result_message: null,
       Nom: null,
       Evolution: null,
@@ -69,54 +76,72 @@ var AddPokemon = Vue.component("AddPokemon", {
     };
   },
   async mounted() {
-    try {
-      var token = getToken();
-      var user = getId();
-      const response = await axios({
+      await axios({
         method: "put",
         url: "api/pokemon/types",
         headers: {
-          Authorization: `Bearer ${token} ${user}`,
+          Authorization: `Bearer ${this.token} ${this.user}`,
         },
+      })
+      .then((response) => {
+        this.Types = response.data.result;
+      })
+      .catch((error) => {
+        if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+          clearToken();
+          swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+          .then(() => {
+            this.$router.go();
+            });
+          };
       });
-      this.Types = response.data.result;
-      console.log(this.Types);
-    } catch (error) {
-      this.Email = "failed to get Types";
-      console.error(error);
-    }
   },
   methods: {
      async AddPokemon() {
-      try {
-        if (confirm("Etes vous sûr de vouloir ajouter ce pokemon ?")) {
-          var token = getToken();
-          var user = getId();
-              const response = await axios({
-                  method: 'put',
+      await swal({
+        title: "Etes vous sur?",
+        text: "Etes vous sûr de vouloir ajouter ce pokemon ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((Pokemon) => {
+        if(Pokemon){
+               axios({
+                  method: 'post',
                   url: 'api/pokemon/add',
                   headers: {
-                    Authorization: `Bearer ${token} ${user}`,
+                    Authorization: `Bearer ${this.token} ${this.user}`,
                   },
                   data: {
                     Nom : this.Nom,
                     Type : this.Type,
                     EvolutionStep : this.Evolution,
                     Image: this.Image,
-                    userId: user,
+                    userId: this.user,
                   }
+              })
+              .then(() => {
+                swal("","Pokemon ajouté","success")
+                .then(() => {
+                this.$router.push("/");
+                this.$router.go(0);
+                });
+              })
+              .catch((error) => {
+                if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                  clearToken();
+                  swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                  .then(() => {
+                    this.$router.go();
+                  });
+                  };
+                swal("","Le pokemon n'a pas pu etre ajouté","error");
               });
-              this.result_message = response.status;
-              alert("Pokemon ajouté");
-              this.$router.push("/");
-              this.$router.go(0);
-            } else {
-              alert("Le pokemon n'a pas été ajouté");
-            }
-          } catch (error) {
-              alert("Le pokemon n'a pas pu etre ajouté");
-              console.error(error);
-          }
-    },
-  },
+        } else {
+          swal("","Le pokemon n'a pas été ajouté","error");
+        }
+    })
+  }
+ }
 });

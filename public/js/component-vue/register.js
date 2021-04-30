@@ -2,7 +2,7 @@ var Register = Vue.component("Register", {
     template: `
     <div>
       <a class="noborderalink" href="/"><img src="/img/Home.png" alt=""></a>
-      <div id="register" class="centercustom container h-75">
+      <div id="register" class=" container h-75">
       <div class="d-flex justify-content-center h-100">
         <div class="user_card">
           <div class="d-flex justify-content-center">
@@ -17,7 +17,7 @@ var Register = Vue.component("Register", {
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user">Email</i></span>
                 </div>
-                <input v-model="Email" type="text" name="Email" class="form-control input_user" value="" placeholder="Email">
+                <input type="email" v-model="Email"  name="Email" class="form-control input_user" value="" placeholder="Email">
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-append">
@@ -57,28 +57,41 @@ var Register = Vue.component("Register", {
   },
    methods: {
       async register() {
-        console.log(this.Mdp)
-            try {
-                const response = await axios({
-                    method: 'put',
+          if(this.Email && this.Mdp && this.Pseudo){
+                await axios({
+                    method: 'post',
                     url: 'api/user/register',
                     data: {
                         Email : this.Email, 
                         Mdp : md5(this.Mdp),
                         Pseudo: this.Pseudo ,
                     }
+                })
+                .then(() => {
+                    swal("","Vous etes inscrit !","success")
+                    .then(() => {
+                    this.$router.push("/");
+                    this.$router.go(0);
+                    });
+                })
+                .catch((error) => {
+                  if(error.response.status == 500){
+                    swal("","Aucun champ ne peut etre vide","error");
+                  }
+                  if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                    clearToken();
+                    swal("","Vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                    .then(() => {
+                      this.$router.go();
+                    });
+                    };
+                    if(error.response.status == 409){
+                      swal("","Vous étes deja inscrit ou votre Pseudo est deja utilisé","error");
+                    }
                 });
-                if(response.status == 201){
-                  alert("Vous etes inscrit !");
-                  this.$router.push("/");
-                  this.$router.go(0)
+              }else{
+                swal("","Tout les champs doivent etre remplie !","error");
               }
-            } catch (error) {
-                if(error.message == 'Request failed with status code 409'){
-                  alert("vous étes deja inscrit ou votre Pseudo est deja utilisé");
-                }
-                console.error(error);
-            }
       }
     },
   });

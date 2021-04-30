@@ -1,7 +1,11 @@
 var ChangeMdp = Vue.component("ChangeMdp", {
     template: `
     <div>
-        <a class="noborderalink" href="/Account"><img src="/img/Home.png" alt=""></a>
+        <a class="noborderalink">
+          <router-link class="nav-link noborderalink" to="/Account">
+            <img src="/img/Home.png" alt="">
+          </router-link>
+        </a>
         <div id="forgot" class="container h-75">
         <div class="d-flex justify-content-center h-100">
           <div class="user_card">
@@ -39,47 +43,81 @@ var ChangeMdp = Vue.component("ChangeMdp", {
     </div>`,
   data() {
     return {
+      Loged: isToken(),
+      token: getToken(),
+      user: getId(),
       IsEmailExist: false,
       Email: null,
       Mdp : null ,
       OldMdp : null,
     };
   },
+  async mounted() {
+        await axios({
+            method: 'put',
+            url: 'api/user/Auth',
+            headers: {
+              Authorization: `Bearer ${this.token} ${this.user}`,
+            },
+        })
+        .catch((error) => {
+          if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+            clearToken();
+            swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+            .then(() => {
+              this.$router.go();
+            });
+            };
+        });
+  },
    methods: {
       async update() {
         if(this.OldMdp && this.Mdp){
-        var user = getId();
-          try {
-            if (confirm("Etes vous sûr de vouloir changer votre mot de passe ?")) {
+            await swal({
+              title: "Etes vous sur?",
+              text: "Etes vous sûr de vouloir changer votre mot de passe ?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((update) => {
+              if(update){
               var token = getToken();
-                const response = await axios({
+                axios({
                     method: 'put',
                     url: 'api/user/update/MDP',
                     headers: {
-                      Authorization: `Bearer ${token} ${user}`,
+                      Authorization: `Bearer ${this.token} ${this.user}`,
                     },
                     data: {
-                        userId : user,
+                        userId : this.user,
                         OldMdp : md5(this.OldMdp),
                         Mdp : md5(this.Mdp),
                     }
-                });
-                this.result_message = response.status;
-                if(response.status == 200){
-                    alert("Mot de passe changé");
+                })
+                .then(() => {
+                    swal("","Mot de passe changé","success")
+                    .then(() => {
                     this.$router.push("/Account");
                     this.$router.go(0);
-                }
+                    });
+                })
+                .catch((error) => {
+                  if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+                    clearToken();
+                    swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+                    .then(() => {
+                    this.$router.go();
+                    });
+                    };
+                  swal("","Mot de passe inchangé ,erreur serveur","error");
+                });
             } else {
-              alert("Mot de passe inchangé , vous avez refusé");
+              swal("","Mot de passe inchangé , vous avez refusé","info");
             }
-          } catch (error) {
-            console.log(error);
-            if(error.code == 401){
-            alert("Mot de passe inchangé , erreur ancien mot de passe");
-            }
-
-          }
+          });
+        }else{
+          swal("","Mot de passe inchangé ,veuillez remplir les deux champs","info");
         }
       }
     },

@@ -6,23 +6,27 @@ var Dashboard = Vue.component("Dashboard", {
           <h2>OPTIONS :</h2>
           <div class="row align-items-start">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="/addPokemon">
-                  <div class="box-part text-center">
-                      <img src="../../img/add_poke.png" alt="img to add pokemon">
-                  </div>
+                <a>
+                  <router-link class="nav-link noborderalink" to="/addPokemon">
+                    <div class="box-part text-center">
+                        <img class="HomeImg col-lg-8 col-md-8 col-sm-8 col-xs-12" src="../../img/add_poke.png" alt="img to add pokemon">
+                    </div>
+                  </router-link> 
                 </a>
               </div>	
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="/addRealPokemon">
-                  <div class="box-part text-center">
-                      <img src="../../img/supr_poke.png" alt="img to delete pokemon">
-                  </div>
+                <a>
+                  <router-link class="nav-link noborderalink" to="/addRealPokemon">
+                    <div class="box-part text-center">
+                        <img class="HomeImg col-lg-8 col-md-8 col-sm-8 col-xs-12" src="../../img/supr_poke.png" alt="img to delete pokemon">
+                    </div>
+                  </router-link>
                 </a>
               </div>	
               <h2>MES POKEMON :</h2>
               <h1>{{Fail}}</h1>
-              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-part text-center center-block" v-for="pokemon in PokemonList">
-                <img class='pokemonImage ImageRounded SpaceBottom' :src="pokemon.Image"/>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-part Pokemonheight text-center center-block" v-for="pokemon in PokemonList">
+                <img class='col-lg-8 col-md-8 col-sm-8 col-xs-12 pokemonImage ImageRounded SpaceBottom' :src="pokemon.Image"/>
                 <h3>{{pokemon.Nom}}</h3>
                 <h3>Type du pokemon: {{pokemon.Type}}</h3>
                 <h3>Etape d'évolution: {{pokemon.EvolutionStep}}</h3>
@@ -69,33 +73,47 @@ var Dashboard = Vue.component("Dashboard", {
   },
   async mounted() {
     if (this.Loged) {
-      try {
-        const response = await axios({
+      await axios({
           method: "put",
           url: "api/pokemon/list",
           headers: {
             Authorization: `Bearer ${this.token} ${this.user}`,
           },
+        })
+        .then((response) => {
+          this.PokemonList = response.data.result;
+        })
+        .catch((error) => {
+          if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+            clearToken();
+            swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+            .then(() => {
+            this.$router.go();
+            });
+            };
+          if(error.response.status == 500){
+          swal("","Les pokemon n'ont pas pu etre récupré","error");
+          }
         });
-        this.PokemonList = response.data.result;
-      } catch (error) {
-        this.Fail = "fail serveur";
-        alert("Les pokemon n'ont pas pu etre récupré");
-        console.error(error);
-      }
     }
   },
   methods: {
     PokemonDetail(ID) {
-      console.log(ID);
       this.$router.push({ path: "/details", query: { ID: ID } });
     },
     async PokemonCopy(ID) {
       this.IdPokemon = ID;
-      try {
-        if (confirm("Etes vous sûr de vouloir copier ce pokemon ?")) {
-          const response = await axios({
-            method: "put",
+      await swal({
+        title: "Etes vous sur?",
+        text: "Etes vous sûr de vouloir copier ce pokemon ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((Pokemon) => {
+        if(Pokemon){
+          axios({
+            method: "patch",
             url: "api/pokemon/this/copy",
             headers: {
               Authorization: `Bearer ${this.token} ${this.user}`,
@@ -103,26 +121,42 @@ var Dashboard = Vue.component("Dashboard", {
             data: {
               IdPokemon: this.IdPokemon,
             },
+          })
+          .then((response) => {
+            swal("","Pokemon copié","success")
+            .then(() => {
+            this.Noms=response.data.results;
+            this.$router.go();
+            });
+          })
+          .catch((error) => {
+            if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+              clearToken();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+            .then(() => {
+              this.$router.go();
+            });
+              };
+            swal("","Le pokemon n'a pas pu etre copié","error");
           });
-          this.result_message = response.status;
-          if (response.status == 200) {
-            alert("Pokemon copier");
-            document.location.reload();
-          }
         } else {
-          alert("Le pokemon n'a pas été supprimé");
+          swal("","Le pokemon n'a pas été copié","error");
         }
-      } catch (error) {
-        alert("Le pokemon n'a pas pu etre supprimé");
-        console.error(error);
-      }
+      });
     },
     async PokemonDelete(ID) {
       this.IdPokemon = ID;
-      try {
-        if (confirm("Etes vous sûr de vouloir supprimer ce pokemon ?")) {
-          const response = await axios({
-            method: "put",
+      await swal({
+        title: "Etes vous sur?",
+        text: "Etes vous sûr de vouloir supprimer ce pokemon ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((Pokemon) => {
+        if(Pokemon){
+          axios({
+            method: "delete",
             url: "api/pokemon/this/delete",
             headers: {
               Authorization: `Bearer ${this.token} ${this.user}`,
@@ -130,19 +164,27 @@ var Dashboard = Vue.component("Dashboard", {
             data: {
               IdPokemon: this.IdPokemon,
             },
+          })
+          .then(() => {
+            swal("","Pokemon supprimé","success")
+            .then(() => {
+              this.$router.go();
+            });
+          })
+          .catch(() => {
+            if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+              clearToken();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+              .then(() => {
+                this.$router.go();
+              });
+              };
+            swal("","Le pokemon n'a pas pu etre supprimé","error");
           });
-          this.result_message = response.status;
-          if (response.status == 200) {
-            alert("Pokemon changé");
-            document.location.reload();
-          }
         } else {
-          alert("Le pokemon n'est pas supprimé");
+          swal("","Le pokemon n'est pas supprimé","error");
         }
-      } catch (error) {
-        alert("Le pokemon n'a pas pu etre supprimé");
-        console.error(error);
-      }
+      });
     },
     async PokemonCompareList(ID) {
       var list = this.CompareList;
@@ -160,8 +202,7 @@ var Dashboard = Vue.component("Dashboard", {
       }
     },
     async PokemonCompare() {
-      try {
-        const response = await axios({
+        await axios({
           method: "put",
           url: "api/pokemon/details/findById",
           headers: {
@@ -170,13 +211,25 @@ var Dashboard = Vue.component("Dashboard", {
           data: {
             IdPokemon: this.CompareList[0].ID,
           },
-        });
-        this.CompareList.splice(0, 1,response.data.result[0]);
+        })
+        .then((response) => {
+          this.CompareList.splice(0, 1,response.data.result[0]);
+          })
+          .catch((error) => {
+            if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+              clearToken();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+              .then(() => {
+                this.$router.go();
+              });
+              };
+              swal("","Les pokemons n'ont pas pu etre comparer","error");
+          });
         if (this.CompareList[0].EvolutionStep == "non") {
           this.CompareList[0].EvolutionStep =
             "unique, Il n'y a pas d'évolution";
         }
-        const response2 = await axios({
+        await axios({
           method: "put",
           url: "api/pokemon/details/findById",
           headers: {
@@ -185,20 +238,25 @@ var Dashboard = Vue.component("Dashboard", {
           data: {
             IdPokemon: this.CompareList[1].ID,
           },
-        });
-        this.CompareList.splice(1, 1,response2.data.result[0]);
+        })
+        .then((response2) => {
+          this.CompareList.splice(1, 1,response2.data.result[0]);
+          })
+          .catch((error) => {
+            if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){
+              clearToken();
+              swal("","vous avez été déconnecté, votre session a expiré, veuillez vous reconnecter","error")
+              .then(() => {
+                this.$router.go();
+              });
+              };
+          swal("","Les pokemons n'ont pas pu etre comparer","error");
+          });
         if (this.CompareList[1].EvolutionStep == "non") {
           this.CompareList[1].EvolutionStep =
             "unique, Il n'y a pas d'évolution";
         }
-
       this.$router.push({ path: "/compare", query: { CompareList: this.CompareList } });
-
-      } catch (error) {
-        this.Fail = "fail serveur";
-        alert("Les infos du pokemon n'ont pas pu etre récupérés");
-        console.error(error);
-      }
     },
   },
 });

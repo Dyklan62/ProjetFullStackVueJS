@@ -1,6 +1,6 @@
 module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "",
-    DB: "project-datadex"
+    HOST: "mysql-dyklan.alwaysdata.net",
+    USER: "dyklan",
+    PASSWORD: "dyklan62..",
+    DB: "dyklan_project-datadex"
   };

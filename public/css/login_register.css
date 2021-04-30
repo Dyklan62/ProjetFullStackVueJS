@@ -22,6 +22,7 @@
         margin: 0;
         padding: 0;
         height: 100%;
+        width: 100%;
     }
 
     .container{
@@ -34,9 +35,14 @@
     .box-part{
         background:rgba(198, 212, 255, 0.64);
         border-radius:35px;
-        padding:40px 0px;
+        padding:20px 0px;
         margin:30px 0px;
     }
+
+    .Pokemonheight {
+        height: 770px;
+    }
+
     a, a:hover, a:visited, a:active
     {
         text-decoration: none !important;
@@ -55,6 +61,7 @@
         margin-top: auto;
         margin-bottom: auto;
     }
+
     .user_card {
         height: 400px;
         width: 350px;
@@ -117,8 +124,7 @@
         background-color: rgb(237, 27, 30)  !important;
     }
     .pokemonImage{
-        height: 350px;
-        width: 260px;
+        height: 250px;
         
     }
     .SpaceAround{
@@ -148,7 +154,7 @@
     }
 
     .thead{
-        height: 460px;
+        height: 363px;
         width: 196px;
         display: flex;
         align-items: center;
@@ -160,7 +166,7 @@
     }
 
     .imgcomparaison{
-        height: 25%;
+        height: 30%;
         width: 100%;
     }
 
@@ -178,17 +184,20 @@
         box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     }
 
+    #login,#register{
+        margin-bottom: 6.6%;
+    }
+
     .sectiontrie{
         display: flex;
     }
 
     .HomeImg{
-        height: 470px;
-        width: 600px;
+        height: 280px;
     }
 
     .alinkimage{
-        margin-top: 18%;
+        margin-top: 20.5%;
     }
 
     .Accueil{
@@ -197,23 +206,7 @@
         padding: 0%;
         margin: 0%;
     }
-    footer{
-        width: 100%;
-        background-color: #5c7b93;
-        padding-bottom: 1%;
-        color: blanchedalmond;
-        position: relative;
-        top: 14.3em;
-        left: 0px;
-        bottom: 0px;
-    }
 
-    .sectionFooter{
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        justify-content: space-around;
-    }
 
     .awhite{
         text-decoration: none !important;
@@ -223,3 +216,8 @@
         color: black;
         text-decoration:black !important;
     }
+
+
+  .row,.row>*{
+      margin-right: 0px !important ;
+  }

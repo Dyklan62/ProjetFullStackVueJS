@@ -2,7 +2,7 @@ var Accueil = Vue.component("Accueil", {
     template: `
     <div class="Acceuil text-center">
         <section class="section titresection">
-        <h1>DataDex, votre solution de trie pokemon !</h1>
+        <h1>Pokemon Home, votre solution de trie pokemon !</h1>
         <a class="noborderalink" href="#sectionOne"><img class="alinkimage" src="/img/arrowDown.png" alt=""></a>
         </section>
         <section id="sectionOne" class="section sectiontrie">

@@ -82,6 +82,7 @@ var Dashboard = Vue.component("Dashboard", {
         })
         .then((response) => {
           this.PokemonList = response.data.result;
+          if(this.PokemonList.length == 0){this.Fail='Veuillez ajouter votre premier Pokemon'}
         })
         .catch((error) => {
           if(error.response.status == 401 && (error.response.data == 'Invalid user ID' || error.response.data == 'Token invalid' )){

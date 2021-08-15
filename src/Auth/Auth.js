@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
         try {
             const token = req.headers.authorization.split(' ')[1];
             const ID = req.headers.authorization.split(' ')[2];
-            const decodedToken = jwt.verify(token, '',(error,decoded) => {
+            const decodedToken = jwt.verify(token, 'EXEMPLE_TOKEN',(error,decoded) => {
                 if(error){
                     throw 'Token invalid';
                 }
